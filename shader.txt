@@ -1,0 +1,20 @@
+
+[vertex]
+    attribute vec2 vertexAttribute;
+    uniform mat4 projectionMatrix;
+    uniform vec4 transform;
+    void main(void) {
+
+        vec2 rx = vec2(
+            vertexAttribute.x * cos(transform.z) - vertexAttribute.y * sin(transform.z),
+            vertexAttribute.x * sin(transform.z) + vertexAttribute.y * cos(transform.z)
+        );
+        gl_Position = projectionMatrix * vec4(rx * transform.w + transform.xy, 0.0, 1.0);
+    }
+
+[fragment]
+    precision mediump float;
+    uniform sampler2D sampler1;
+    void main(void) {
+        gl_FragColor = vec4(1, 1, 1, 1);
+    }
