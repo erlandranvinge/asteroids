@@ -17,6 +17,7 @@ var Asteroids = function(canvasId, scoreId) {
     this.ui = ui;
     this.input = new Input();
     this.sim = new Simulation();
+    this.ai = new Ai();
 };
 
 Asteroids.prototype.loadAssets = function(done) {
@@ -42,6 +43,7 @@ Asteroids.prototype.loadAssets = function(done) {
 
 Asteroids.prototype.update = function(dt) {
     this.sim.update(dt, this.input);
+    this.ai.calculateInputs(this.sim);
 };
 
 Asteroids.prototype.draw = function() {

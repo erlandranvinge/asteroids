@@ -7,7 +7,7 @@ var Simulation = function() {
     };
 
     this.asteroids = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 1; i++) {
         this.asteroids.push({
             x: 2 * random() - 1,
             y: 2 * random() - 1,
