@@ -31,8 +31,6 @@ Meshes.prototype.compile = function() {
     this.bufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferId);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data), gl.STATIC_DRAW);
-
-    console.log(this.meshes);
 };
 
 Meshes.prototype.draw = function(id, x, y, angle, scale) {

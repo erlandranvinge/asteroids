@@ -20,9 +20,25 @@ var Simulation = function() {
     }
 };
 
-Simulation.prototype.update = function(dt, input) {
+Simulation.prototype.checkCollisions = function() {
     var player = this.player;
     var asteroids = this.asteroids;
+    for (var i = 0; i < asteroids.length; i++) {
+        var dx = player.x - asteroids[i].x;
+        var dy = player.y - asteroids[i].y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 0.1) return true;
+    }
+    return false;
+};
+
+Simulation.prototype.update = function(dt, input) {
+
+    var player = this.player;
+    var asteroids = this.asteroids;
+
+    if (player.dead)
+        return;
 
     for (var i = 0; i < asteroids.length; i++) {
         var asteroid = asteroids[i];
@@ -62,4 +78,11 @@ Simulation.prototype.update = function(dt, input) {
 
         player.thrust *= 0.95;
     }
+
+    if (this.checkCollisions()) {
+        player.dead = true;
+        return;
+    }
+
+    player.score += 2 * dt;
 };

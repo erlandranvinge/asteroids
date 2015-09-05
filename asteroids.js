@@ -1,12 +1,20 @@
 var gl = null;
 
-var Asteroids = function(canvasId) {
+var Asteroids = function(canvasId, scoreId) {
     var canvas = document.getElementById(canvasId);
     gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) throw 'Unable to init. webgl.';
-
     gl.canvas = canvas;
     gl.viewport(0, 0, canvas.width, canvas.height);
+
+    var score = document.getElementById(scoreId);
+    var ui = score.getContext('2d');
+    ui.width = score.width;
+    ui.height = score.height;
+    ui.fillStyle = 'orange';
+    ui.font = '20px Sans-Serif';
+
+    this.ui = ui;
     this.input = new Input();
     this.sim = new Simulation();
 };
@@ -55,6 +63,14 @@ Asteroids.prototype.draw = function() {
         self.draw();
         self.time = time;
     });
+
+    this.ui.clearRect(0, 0, this.ui.width, this.ui.height);
+    this.ui.fillText(player.score | 0, 10, 30);
+
+    if (player.dead) {
+        this.ui.fillText('GAME OVER', 10, 50);
+    }
+
 };
 
 Asteroids.prototype.start = function() {

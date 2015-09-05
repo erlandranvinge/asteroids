@@ -11,15 +11,15 @@
     <script src="asteroids.js"></script>
     <style>
         * { margin: 0; padding: 0 }
-        canvas { width: 50%; height: 50%; }
+        #game { width: 100%; height: 100%; }
+        #score { position: absolute; top: 0; left: 0; }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="640" height="480">
-        A webgl-compliant browser is required in order to run asteroids.
-    </canvas>
+    <canvas id="game" width="640" height="480">webgl is required.</canvas>
+    <canvas id="score" width="200" height="100"></canvas>
     <script>
-        new Asteroids("canvas").start()
+        new Asteroids("game", "score").start()
     </script>
 </body>
 </html>
