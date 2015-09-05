@@ -15,6 +15,18 @@ Meshes.prototype.add = function(vertices) {
     return this.meshes.length - 1;
 };
 
+Meshes.prototype.addCircle = function(vertices, radius, roughness) {
+    this.meshes.push({ offset: this.data.length / 2, length: vertices });
+
+    var da = 2*pi / vertices;
+    for (var angle = 0; angle < 2*pi; angle += da) {
+        var r = radius + (random() * roughness - roughness * 0.5);
+        this.data.push(r * Math.cos(angle));
+        this.data.push(r * Math.sin(angle));
+    }
+    return this.meshes.length - 1;
+};
+
 Meshes.prototype.compile = function() {
     this.bufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferId);
