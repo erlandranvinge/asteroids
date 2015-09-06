@@ -2,9 +2,18 @@
 
 // Inputs: 000 000 0000
 
-var Ai = function() {
-    this.inputs = new Array(10);
+var Ai = function(asteroidCount) {
+    this.inputs = new Array(asteroidCount * 10);
+    this.outputs = new Array(3);
+    this.weights = [];
 
+    for (var o = 0; o < this.outputs.length; o++) {
+
+        this.weights.push([]);
+        for (var i = 0; i < this.inputs.length; i++) {
+            this.weights[o].push(random());
+        }
+    }
 };
 
 Ai.prototype.calculateInputs = function(sim) {
@@ -32,10 +41,33 @@ Ai.prototype.calculateInputs = function(sim) {
         else { dz = 3; }
 
         for (var j = 0; j < 10; j++)
-            this.inputs[j] = 0;
-        this.inputs[dx] = 1;
-        this.inputs[3 + dy] = 1;
-        this.inputs[6 + dz] = 1;
-        console.log(this.inputs);
+            this.inputs[i * 10 + j] = 0;
+
+        this.inputs[i * 10 + dx] = 1;
+        this.inputs[i * 10 + 3 + dy] = 1;
+        this.inputs[i * 10 + 6 + dz] = 1;
     }
+};
+
+Ai.prototype.randomDna = function() {
+    for (var o = 0; o < this.outputs.length; o++) {
+        for (var i = 0; i < this.inputs.length; i++) {
+            this.weights[o][i] = random();
+        }
+    }
+};
+
+Ai.prototype.propagate = function() {
+
+    for (var o = 0; o < this.outputs.length; o++) {
+        var output = 0;
+        for (var i = 0; i < this.inputs.length; i++) {
+            output += this.weights[o][i] * this.inputs[i];
+        }
+        this.outputs[o] = output / this.inputs.length;
+    }
+
+    this.left = this.outputs[0] > 0.1;
+    this.right = this.outputs[1] > 0.1;
+    this.up = this.outputs[2] > 0.1;
 };

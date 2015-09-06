@@ -17,7 +17,7 @@ var Asteroids = function(canvasId, scoreId) {
     this.ui = ui;
     this.input = new Input();
     this.sim = new Simulation();
-    this.ai = new Ai();
+    this.ai = new Ai(this.sim.asteroids.length);
 };
 
 Asteroids.prototype.loadAssets = function(done) {
@@ -42,8 +42,10 @@ Asteroids.prototype.loadAssets = function(done) {
 };
 
 Asteroids.prototype.update = function(dt) {
-    this.sim.update(dt, this.input);
     this.ai.calculateInputs(this.sim);
+    this.ai.propagate();
+
+    this.sim.update(dt, this.ai);
 };
 
 Asteroids.prototype.draw = function() {
@@ -71,6 +73,8 @@ Asteroids.prototype.draw = function() {
 
     if (player.dead) {
         this.ui.fillText('GAME OVER', 10, 50);
+        this.sim.reset();
+        this.ai.randomDna();
     }
 
 };

@@ -7,8 +7,8 @@ var Simulation = function() {
     };
 
     this.asteroids = [];
-    for (var i = 0; i < 1; i++) {
-        this.asteroids.push({
+    for (var i = 0; i < 10; i++) {
+        var asteroid = {
             x: 2 * random() - 1,
             y: 2 * random() - 1,
             dx: random() - 0.5,
@@ -16,7 +16,32 @@ var Simulation = function() {
             scale: 0.5 + random() * 0.2,
             angle: random() * pi * 2,
             da: random() * 1 - 0.5
-        });
+        };
+        asteroid.initial = {
+            x: asteroid.x, y: asteroid.y,
+            dx: asteroid.dx, dy: asteroid.dy,
+            angle: asteroid.angle, da: asteroid.da
+        };
+        this.asteroids.push(asteroid);
+    }
+};
+
+Simulation.prototype.reset = function() {
+    this.player.x = 0;
+    this.player.y = 0;
+    this.player.angle = 1.5707;
+    this.player.thrust = 0;
+    this.player.score = 0;
+    this.player.dead = false;
+
+    for (var i = 0; i < this.asteroids.length; i++) {
+        var a = this.asteroids[i];
+        a.x = a.initial.x;
+        a.y = a.initial.y;
+        a.dx = a.initial.dx;
+        a.dy = a.initial.dy;
+        a.angle = a.initial.angle;
+        a.da = a.initial.da;
     }
 };
 
