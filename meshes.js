@@ -51,5 +51,5 @@ Meshes.prototype.draw = function(id, x, y, angle, scale) {
 
     gl.uniformMatrix4fv(shader.uniforms.projectionMatrix, false, p);
     gl.uniform4fv(shader.uniforms.transform, [x, y, angle, scale]);
-    gl.drawArrays(gl.LINE_LOOP, this.meshes[id].offset, this.meshes[id].length);
+    gl.drawArrays(gl.TRIANGLE_FAN, this.meshes[id].offset, this.meshes[id].length);
 };

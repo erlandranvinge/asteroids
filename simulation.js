@@ -1,5 +1,8 @@
 
 var Simulation = function() {
+
+    seed = 3;
+
     this.player = {
         x: 0, y: 0,
         angle: 1.5707, thrust: 0,
@@ -94,11 +97,11 @@ Simulation.prototype.update = function(dt, input) {
         player.x += Math.cos(player.angle) * dt * player.thrust;
         player.y += Math.sin(player.angle) * dt * player.thrust;
 
-        if (player.x >  1.0) { player.x =  1.0 }
-        if (player.x < -1.0) { player.x = -1.0 }
+        if (player.x >  1.0) { player.x = -1.0 }
+        if (player.x < -1.0) { player.x =  1.0 }
 
-        if (player.y >  1.0) { player.y =  1.0 }
-        if (player.y < -1.0) { player.y = -1.0 }
+        if (player.y >  1.0) { player.y = -1.0 }
+        if (player.y < -1.0) { player.y =  1.0 }
 
 
         player.thrust *= 0.95;
@@ -109,5 +112,5 @@ Simulation.prototype.update = function(dt, input) {
         return;
     }
 
-    player.score += 2 * dt;
+    player.score += 20 * dt;
 };

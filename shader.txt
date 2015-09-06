@@ -1,5 +1,6 @@
 
 [vertex]
+    precision mediump float;
     attribute vec2 vertexAttribute;
     uniform mat4 projectionMatrix;
     uniform vec4 transform;
@@ -15,6 +16,12 @@
 [fragment]
     precision mediump float;
     uniform sampler2D sampler1;
+    uniform vec4 transform;
     void main(void) {
-        gl_FragColor = vec4(1, 1, 1, 1);
+
+        if (transform.w == 1.0) {
+            gl_FragColor = vec4(1, 0, 0, 1);
+        } else {
+            gl_FragColor = vec4(transform.w, transform.w, transform.w, 1);
+        }
     }

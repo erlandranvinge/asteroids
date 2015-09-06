@@ -57,6 +57,7 @@ Ai.prototype.randomDna = function() {
     }
 };
 
+
 Ai.prototype.propagate = function() {
 
     for (var o = 0; o < this.outputs.length; o++) {
@@ -66,8 +67,7 @@ Ai.prototype.propagate = function() {
         }
         this.outputs[o] = output / this.inputs.length;
     }
-
-    this.left = this.outputs[0] > 0.1;
-    this.right = this.outputs[1] > 0.1;
-    this.up = this.outputs[2] > 0.1;
+    this.left = this.outputs[0] > 0.13;
+    this.right = this.outputs[1] > 0.13;
+    this.up = this.outputs[2] > 0.13;
 };

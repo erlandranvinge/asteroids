@@ -18,6 +18,10 @@ var Asteroids = function(canvasId, scoreId) {
     this.input = new Input();
     this.sim = new Simulation();
     this.ai = new Ai(this.sim.asteroids.length);
+
+    this.training = new Training();
+    this.isTraining = true;
+
 };
 
 Asteroids.prototype.loadAssets = function(done) {
@@ -26,9 +30,9 @@ Asteroids.prototype.loadAssets = function(done) {
         var meshes = new Meshes(shader);
 
         self.sim.player.mesh = meshes.add([
-            -0.1, -0.1,
-             0.1,  0.0,
-            -0.1,  0.1
+            -0.05, -0.05,
+             0.05,  0.0,
+            -0.05,  0.05
         ]);
 
         var sim = self.sim;
@@ -46,6 +50,11 @@ Asteroids.prototype.update = function(dt) {
     this.ai.propagate();
 
     this.sim.update(dt, this.ai);
+
+    if (this.isTraining) {
+        for (var i = 0; i < 100; i++)
+            this.training.run();
+    }
 };
 
 Asteroids.prototype.draw = function() {
@@ -53,7 +62,7 @@ Asteroids.prototype.draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     var player = this.sim.player;
-    this.meshes.draw(player.mesh, player.x, player.y, player.angle, 0.5);
+    this.meshes.draw(player.mesh, player.x, player.y, player.angle, 0);
 
     var asteroids = this.sim.asteroids;
     for (var i = 0; i < asteroids.length; i++) {
@@ -69,12 +78,12 @@ Asteroids.prototype.draw = function() {
     });
 
     this.ui.clearRect(0, 0, this.ui.width, this.ui.height);
-    this.ui.fillText(player.score | 0, 10, 30);
+    this.ui.fillText((player.score | 0) + " | IN TRAINING", 10, 30);
 
     if (player.dead) {
         this.ui.fillText('GAME OVER', 10, 50);
         this.sim.reset();
-        this.ai.randomDna();
+        this.ai.weights = this.training.topDna;
     }
 
 };
